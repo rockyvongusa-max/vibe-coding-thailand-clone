@@ -525,7 +525,7 @@
       </nav>
     </header>
 
-  <main>
+  <main style="padding-top: 32px;">
     <div class="hero-wrap">
       <div class="blob blob-1"></div>
       <div class="blob blob-2"></div>
@@ -749,15 +749,24 @@
   <script>
     const header = document.getElementById('site-header');
     const announce = header?.querySelector('.announce');
-    const updateHeaderTop = () => {
-      const height = announce ? announce.getBoundingClientRect().height : 0;
-      if (height > 0) header.style.setProperty('--announce-height', `${height}px`);
-      header.classList.toggle('announce-open', height > 0);
+    const pushHeaderForAnnounce = () => {
+      if (!announce) return;
+      const rect = announce.getBoundingClientRect();
+      const height = rect.height || 0;
+      document.documentElement.style.setProperty('--announce-height', `${height}px`);
+      if (height > 0) {
+        announce.classList.add('is-visible');
+        header.classList.add('is-pushed');
+      } else {
+        announce.classList.remove('is-visible');
+        header.classList.remove('is-pushed');
+      }
     };
     window.addEventListener('scroll', () => {
       header.classList.toggle('scrolled', window.scrollY > 20);
     });
-    if (announce) updateHeaderTop();
+    pushHeaderForAnnounce();
+    window.addEventListener('resize', pushHeaderForAnnounce);
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {

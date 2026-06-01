@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>เรียน AI ใช้งานจริงสำหรับทุกคน | Vibe Coding Thailand</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&family=Prompt:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --bg: #f7f3ec;
+      --ink: #1f1b18;
+      --muted: #6b5f55;
+      --accent-green: #9ae6b4;
+      --accent-pink: #ffd1dc;
+      --accent-purple: #e2d5f5;
+      --accent-yellow: #fde68a;
+      --accent-gold: #d4a843;
+      --card: #ffffff;
+      --border: #e7e0d8;
+      --shadow: 0 14px 40px rgba(31, 27, 24, 0.12);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: 'Noto Sans Thai', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    /* Offset for fixed header + optional announcement */
+    .section-wrap, section, footer { padding-top: 24px; }
+
+    /* Decorative blobs */
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(70px);
+      opacity: 0.75;
+      pointer-events: none;
+    }
+    .hero-wrap {
+      position: relative;
+      min-height: 92vh;
+      padding: 0 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+    .blob-1 {
+      width: 420px; height: 420px;
+      background: var(--accent-green);
+      top: -120px; left: -120px;
+      animation: float 14s ease-in-out infinite;
+    }
+    .blob-2 {
+      width: 360px; height: 360px;
+      background: var(--accent-pink);
+      bottom: -100px; right: -80px;
+      animation: float 16s ease-in-out infinite reverse;
+    }
+    .blob-3 {
+      width: 300px; height: 300px;
+      background: var(--accent-purple);
+      top: 30%; left: 60%;
+      animation: float 12s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+      50% { transform: translate3d(20px, -30px, 0) scale(1.05); }
+    }
+
+    /* Announcement */
+    .announce {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 60;
+      background: #221e1a;
+      color: #fff;
+      text-align: center;
+      padding: 8px 12px;
+      font-weight: 600;
+      font-size: 13px;
+    }
+    .announce a { color: #fde68a; text-decoration: underline; }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 32px; left: 0; right: 0;
+      z-index: 50;
+      backdrop-filter: blur(14px);
+      background: rgba(247, 243, 236, 0.85);
+      border-bottom: 1px solid transparent;
+      transition: border-color .2s, top .2s;
+    }
+    header.scrolled { border-color: var(--border); }
+    .nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+    .logo {
+      font-family: 'Prompt', sans-serif;
+      font-weight: 700;
+      font-size: 20px;
+      letter-spacing: -0.3px;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      list-style: none;
+      margin: 0; padding: 0;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      font-weight: 500;
+      font-size: 15px;
+      transition: color .2s;
+      background: transparent;
+      border: 0;
+      padding: 0;
+      cursor: pointer;
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      border: 1.5px solid transparent;
+      text-decoration: none;
+      transition: transform .08s ease, filter .2s, background .2s, border-color .2s;
+    }
+    .btn:active { transform: translateY(1px); }
+    .btn-outline {
+      background: transparent;
+      color: var(--ink);
+      border-color: var(--border);
+    }
+    .btn-outline:hover { border-color: var(--accent-gold); }
+    .btn-filled {
+      background: var(--ink);
+      color: #fff;
+      border-color: var(--ink);
+      cursor: pointer;
+    }
+    .btn-filled:hover { background: #2b2520; }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      padding: 110px 20px 70px;
+    }
+    .eyebrow {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.65);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 18px;
+    }
+    h1 {
+      font-family: 'Prompt', sans-serif;
+      font-weight: 700;
+      font-size: clamp(36px, 6vw, 60px);
+      line-height: 1.05;
+      letter-spacing: -0.6px;
+      margin: 0 0 18px;
+    }
+    h1 .highlight {
+      background: var(--accent-yellow);
+      padding: 4px 10px;
+      border-radius: 10px;
+    }
+    .lead {
+      margin: 0 auto 22px;
+      max-width: 700px;
+      color: var(--muted);
+      font-size: 17px;
+    }
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    /* Ticker / LIVE */
+    .ticker {
+      margin-top: 44px;
+      width: 100%;
+      max-width: 900px;
+      background: rgba(255, 255, 255, 0.65);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      text-align: left;
+    }
+    .ticker-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 1px;
+      color: #b91c1c;
+      border-bottom: 1px solid var(--border);
+    }
+    .live-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #b91c1c;
+      box-shadow: 0 0 0 0 rgba(185, 28, 28, 0.7);
+      animation: pulse 1.2s infinite;
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(185, 28, 28, 0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(185, 28, 28, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(185, 28, 28, 0); }
+    }
+    .ticker-items { padding: 6px 0; }
+    .ticker-item {
+      display: block;
+      padding: 10px 14px;
+      text-decoration: none;
+      color: var(--ink);
+      font-weight: 500;
+      font-size: 15px;
+      transition: background .15s;
+    }
+    .ticker-item:hover { background: rgba(0,0,0,0.03); }
+
+    /* Sections */
+    section { padding: 60px 20px; }
+    .section-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .section-title {
+      font-family: 'Prompt', sans-serif;
+      font-weight: 700;
+      font-size: 28px;
+      margin: 0 0 6px;
+    }
+    .section-sub {
+      color: var(--muted);
+      max-width: 720px;
+      margin: 0 0 28px;
+    }
+
+    /* Tool cards */
+    .tools {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 18px;
+    }
+    .tool {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: var(--shadow);
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: transform .15s, border-color .2s;
+    }
+    .tool:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent-gold);
+    }
+    .chip {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #f4f1ea;
+      border: 1px solid var(--border);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+    .tool h3 {
+      margin: 0 0 8px;
+      font-size: 17px;
+      font-weight: 700;
+    }
+    .tool p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .tool-foot {
+      margin-top: 12px;
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* Course card */
+    .course {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+    .course-meta {
+      display: inline-flex;
+      gap: 10px;
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+
+    /* Articles */
+    .articles {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 18px;
+    }
+    .article {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: transform .15s, border-color .2s;
+    }
+    .article:hover { transform: translateY(-4px); border-color: var(--accent-gold); }
+    .article-img {
+      height: 180px;
+      background: linear-gradient(120deg, #9ae6b4, #e2d5f5, #ffd1dc);
+      background-size: cover;
+      background-position: center;
+    }
+    .article-body { padding: 18px; }
+    .article-meta {
+      display: flex;
+      gap: 10px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .article-title {
+      margin: 0 0 8px;
+      font-weight: 700;
+      font-size: 17px;
+      line-height: 1.35;
+    }
+    .article-foot {
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    footer {
+      background: #221e1a;
+      color: #cbc2b8;
+      padding: 50px 20px 30px;
+    }
+    .footer-grid {
+      max-width: 1100px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 28px;
+    }
+    footer h4 {
+      margin: 0 0 12px;
+      color: #fff;
+      font-weight: 600;
+      font-size: 15px;
+    }
+    footer ul { list-style: none; padding: 0; margin: 0; }
+    footer li { margin: 6px 0; }
+    footer a { color: #cbc2b8; text-decoration: none; font-size: 14px; }
+    footer a:hover { color: #fff; }
+    .copy {
+      max-width: 1100px; margin: 30px auto 0;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      font-size: 13px;
+      color: #9a8f85;
+    }
+
+    /* Reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity .55s ease, transform .55s ease;
+    }
+    .reveal.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Accessibility */
+    @media (prefers-reduced-motion: reduce) {
+      .blob, .reveal { animation: none; transition: none; }
+      .reveal { opacity: 1; transform: none; }
+    }
+    @media (max-width: 720px) {
+      .nav-links { display: none; }
+    }
+
+    /* Dropdowns */
+    .has-dropdown { position: relative; }
+    .dropdown-toggle {
+      background: transparent;
+      border: 0;
+      color: var(--muted);
+      font-weight: 500;
+      font-size: 15px;
+      cursor: pointer;
+      padding: 6px 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .dropdown-toggle:hover { color: var(--ink); }
+    .dropdown {
+      position: absolute;
+      top: 110%;
+      left: 50%;
+      transform: translateX(-50%) translateY(6px);
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 8px;
+      min-width: 220px;
+      box-shadow: var(--shadow);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .15s ease, transform .15s ease;
+      z-index: 40;
+    }
+    .dropdown.is-open {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+    .dropdown-item {
+      display: block;
+      padding: 10px 12px;
+      border-radius: 10px;
+      color: var(--ink);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    .dropdown-item:hover { background: #f4f1ea; }
+  </style>
+</head>
+<body>
+
+    <header id="site-header">
+      <div class="announce">SALE 50% เฉลิมครบรอบ 1 ปี 🎉 <a href="#">ดูรายละเอียด</a></div>
+      <nav class="nav">
+        <a class="logo" href="#">Vibe Coding Thailand</a>
+        <ul class="nav-links">
+          <li><a href="#courses">คอร์ส</a></li>
+          <li><a href="#featured">หนังสือ</a></li>
+          <li><a href="#articles">บทความ</a></li>
+          <li class="has-dropdown">
+            <button id="tools-toggle" aria-expanded="false" class="dropdown-toggle">เครื่องมือ AI ▾</button>
+            <div class="dropdown" id="tools-dropdown">
+              <a class="dropdown-item" href="#">Claude Code</a>
+              <a class="dropdown-item" href="#">Claude Cowork</a>
+              <a class="dropdown-item" href="#">ChatGPT</a>
+            </div>
+          </li>
+          <li class="has-dropdown">
+            <button id="more-toggle" aria-expanded="false" class="dropdown-toggle">เพิ่มเติม ▾</button>
+            <div class="dropdown" id="more-dropdown">
+              <a class="dropdown-item" href="#">เกี่ยวกับเรา</a>
+              <a class="dropdown-item" href="#">ชุมชน</a>
+              <a class="dropdown-item" href="#">ติดต่อ</a>
+              <a class="dropdown-item" href="#">Privacy</a>
+            </div>
+          </li>
+        </ul>
+        <a class="btn btn-filled" href="#">เข้าสู่ระบบ</a>
+      </nav>
+    </header>
+
+  <main>
+    <div class="hero-wrap">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="blob blob-3"></div>
+
+      <div class="hero">
+        <div class="eyebrow">AI สำหรับงานทุกวัน</div>
+        <h1>ใช้ <span class="highlight">AI ทำงาน</span> ให้เร็วขึ้น เริ่มได้แม้ไม่ใช่สายเทคนิค</h1>
+        <p class="lead">
+          คอร์ส หนังสือ บทความ และพรอมต์ภาษาไทย สำหรับพนักงานออฟฟิศ ครีเอเตอร์ เจ้าของธุรกิจ และคนที่เพิ่งเริ่มใช้ AI
+        </p>
+        <div class="cta-row">
+          <a class="btn btn-outline" href="#featured">ดูหนังสือ</a>
+          <a class="btn btn-filled" href="#courses">ดูคอร์ส</a>
+          <span style="color: var(--muted); font-weight: 600;">↙ เริ่มจากตรงนี้</span>
+        </div>
+
+        <div class="ticker reveal">
+          <div class="ticker-head"><span class="live-dot"></span>LIVE</div>
+          <div class="ticker-items">
+            <a class="ticker-item" href="#">Claude Cowork: The Business Playbook</a>
+            <a class="ticker-item" href="#">Claude Skills คืออะไร: สร้าง prompt ที่ใช้ซ้ำได้ ข้าม Chat, Cowork และ Claude Code</a>
+            <a class="ticker-item" href="#">เขียน Task Brief มอบหมายงานทีมให้ชัดจน Execute ได้ทันที</a>
+            <a class="ticker-item" href="#">Obsidian: สมองที่สองที่คุณเป็นเจ้าของไฟล์เอง สรุป 80% ของแอปใน 15 นาที แล้วต่อ Claude เข้าไปคุยกับโน้ตได้</a>
+            <a class="ticker-item" href="#">AI เขียนโค้ดเร็วขึ้น 10 เท่า แล้วอะไรจะพังก่อน? วิศวกร Google ขึ้นเวที I/O ชี้ว่าสิ่งที่พังไม่ใช่โค้ด แต่คือทั้งระบบรอบๆ และทางรอดคือมองให้เป็นระบบนิเวศ</a>
+            <a class="ticker-item" href="#">Vibecoding with Claude Code: The Developer's Playbook</a>
+            <a class="ticker-item" href="#">สร้าง Flashcards พร้อม Mnemonic จาก Chapter หนังสือเรียน</a>
+            <a class="ticker-item" href="#">ทีม 3 คนสร้างโปรดักต์จริงใน 10 สัปดาห์ได้ยังไง · ถอดวิธีทำงานของทีมเล็กใน Anthropic Labs</a>
+            <a class="ticker-item" href="#">เปรียบเทียบข้อเสนอ Vendor 3 เจ้า เพื่อตัดสินใจคัดเลือกอย่างมีหลักการ</a>
+            <a class="ticker-item" href="#">Claude Opus 4.8 มาแล้ว: ราคาเท่าเดิม เก่งขึ้นเกือบทั้งกระดาน ปุ่มปรับ effort ใช้ได้ทุกแผน</a>
+            <a class="ticker-item" href="#">ใช้ Claude ให้เก่งกว่าคน 99% · แผนที่ทีม 5 คน กับกรอบสั่งงาน PRIME ที่คนทั่วไปก็ทำได้</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section id="featured">
+      <div class="section-wrap reveal">
+        <p style="color: var(--muted); font-weight: 700; margin: 0 0 6px;">หนังสือ · แนะนำ</p>
+        <div style="display:inline-flex; align-items:center; gap:10px; margin-bottom:10px;">
+          <span style="padding:6px 12px; border-radius:999px; background:rgba(255,255,255,0.8); border:1px solid var(--border); font-weight:700; font-size:13px;">ใหม่ · ภาษาไทย</span>
+        </div>
+        <h2 class="section-title">Vibecoding with Claude Code: The Developer's Playbook</h2>
+        <p class="section-sub">
+          หนังสือ Vibecoding with Claude Code ฉบับภาษาไทย 10 บท พา dev สร้าง Personal Finance Tracker (LINE OA + AI จัดหมวดอัตโนมัติ) ตั้งแต่ขึ้นโครงโปรเจกต์บรรทัดแรกจนแอปทำงานจริงบน server อ่านได้ตั้งแต่ junior หรือเด็กจบใหม่ ไปจนถึง senior ที่อยากเก็บ pattern จาก production จริงไป onboard ทีม พร้อม Video walkthrough ทุก workshop ใน Private Facebook Group ของผู้อ่านเล่มนี้
+        </p>
+        <div class="featured">
+          <div class="book-cover">
+            Developer's<br/>Playbook<br/><span style="font-size:12px; font-weight:500;">10 บท · วิดีโอ + สิทธิ์เข้ากลุ่ม</span>
+          </div>
+          <div>
+            <div style="display:flex; gap: 18px; color: var(--muted); margin-bottom: 12px; font-weight: 700;">
+              <span>12 บท</span>
+              <span>วิดีโอสอนใช้</span>
+              <span>กลุ่มผู้อ่าน</span>
+            </div>
+            <div style="display:flex; align-items: baseline; gap: 8px; margin-bottom: 14px;">
+              <span style="text-decoration: line-through; color: var(--muted);">฿2,500</span>
+              <span style="color: var(--ink); font-weight: 700;">฿1,250</span>
+              <span style="color: var(--muted);">ประหยัด 50%</span>
+            </div>
+            <div style="display:flex; gap: 12px; flex-wrap: wrap;">
+              <a class="btn btn-filled" href="#">ซื้อหนังสือ ฿1,250</a>
+              <a class="btn btn-outline" href="#">ดูรายละเอียด</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tools">
+      <div class="section-wrap reveal">
+        <h2 class="section-title">เลือกเครื่องมือ AI ที่ใกล้กับงานของคุณ</h2>
+        <div class="tools">
+          <a class="tool" href="#">
+            <div class="chip">สายสร้างโปรดักต์</div>
+            <h3>Claude Code</h3>
+            <p>ใช้ AI ช่วยสร้าง แก้ และดูแลโปรเจกต์ซอฟต์แวร์แบบเป็นระบบ</p>
+            <div class="tool-foot"><span>เลือกอ่านตามงานที่อยากแก้</span><span>อ่านต่อ →</span></div>
+          </a>
+          <a class="tool" href="#">
+            <div class="chip">สายออฟฟิศ</div>
+            <h3>Claude Cowork</h3>
+            <p>ใช้ AI ช่วยจัดไฟล์ สรุปข้อมูล ทำรายงาน และลดงานออฟฟิศซ้ำ ๆ</p>
+            <div class="tool-foot"><span>เลือกอ่านตามงานที่อยากแก้</span><span>อ่านต่อ →</span></div>
+          </a>
+          <a class="tool" href="#">
+            <div class="chip">สายคอนเทนต์</div>
+            <h3>ChatGPT</h3>
+            <p>ใช้ ChatGPT ให้คุ้มกับงานเขียน ค้นคว้า วางแผน วิเคราะห์ และสร้างสรรค์</p>
+            <div class="tool-foot"><span>เลือกอ่านตามงานที่อยากแก้</span><span>อ่านต่อ →</span></div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="courses">
+      <div class="section-wrap reveal">
+        <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap: 12px;">
+          <div>
+            <h2 class="section-title">เริ่มที่นี่ก่อน ฟรี 100%</h2>
+            <p class="section-sub" style="margin-bottom:0;">คอร์สสั้น อธิบายจริง เริ่มได้ใน 40 นาที</p>
+          </div>
+          <a class="btn btn-outline" href="#">ดูคอร์สทั้งหมด</a>
+        </div>
+
+        <div class="course" style="margin-top: 20px;">
+          <div class="course-meta"><span>คอร์ส</span><span>ฟรี 100%</span><span>BEGINNER</span></div>
+          <h3 style="margin: 0 0 8px; font-size: 17px; font-weight: 700;">Prompt Engineering 101: เขียน Prompt ให้เป็นมืออาชีพ</h3>
+          <p style="margin: 0 0 14px; color: var(--muted); font-size: 14px;">เรียนรู้วิธีใช้ AI ตั้งแต่เริ่มต้น จบ 7 บทใน 40 นาที ใช้ได้จริงทันที ฟรี 100%</p>
+          <div style="display:flex; gap: 10px; flex-wrap: wrap;">
+            <a class="btn btn-filled" href="#">เริ่มเรียนเลย</a>
+            <a class="btn btn-outline" href="#">ดูหลักสูตร</a>
+          </div>
+          <div class="course-meta" style="margin-top: 14px;"><span>40 นาที</span><span>7 บท</span><span>BEGINNER</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="articles">
+      <div class="section-wrap reveal">
+        <h2 class="section-title">อ่านต่อ ใช้งาน AI ให้เป็นเรื่องใกล้ตัว</h2>
+        <p class="section-sub">ข่าว เครื่องมือใหม่ และวิธีใช้ AI กับงานเอกสาร ประชุม วิเคราะห์ข้อมูล คอนเทนต์ และโปรเจกต์ส่วนตัว</p>
+        <div style="margin-bottom: 20px;">
+          <a class="btn btn-outline" href="#">บทความทั้งหมด</a>
+        </div>
+        <div class="articles">
+          <a class="article" href="#">
+            <div class="article-img" style="background: linear-gradient(120deg, #9ae6b4, #e2d5f5, #ffd1dc);"></div>
+            <div class="article-body">
+              <div class="article-meta"><span>OPINION</span><span>31 พ.ค. 2569</span><span>14 นาที</span></div>
+              <h3 class="article-title">ทีม 3 คนสร้างโปรดักต์จริงใน 10 สัปดาห์ได้ยังไง · ถอดวิธีทำงานของทีมเล็กใน Anthropic Labs</h3>
+              <div class="article-foot">อ่านต่อ →</div>
+            </div>
+          </a>
+          <a class="article" href="#">
+            <div class="article-img" style="background: linear-gradient(120deg, #d5b4fc, #a5f3d5);"></div>
+            <div class="article-body">
+              <div class="article-meta"><span>NEWS</span><span>31 พ.ค. 2569</span><span>20 นาที</span></div>
+              <h3 class="article-title">AI เขียนโค้ดเร็วขึ้น 10 เท่า แล้วอะไรจะพังก่อน? วิศวกร Google ขึ้นเวที I/O ชี้ว่าสิ่งที่พังไม่ใช่โค้ด แต่คือทั้งระบบรอบๆ และทางรอดคือมองให้เป็นระบบนิเวศ</h3>
+              <div class="article-foot">อ่านต่อ →</div>
+            </div>
+          </a>
+          <a class="article" href="#">
+            <div class="article-img" style="background: linear-gradient(120deg, #ffd1dc, #fde68a);"></div>
+            <div class="article-body">
+              <div class="article-meta"><span>NEWS</span><span>31 พ.ค. 2569</span><span>11 นาที</span></div>
+              <h3 class="article-title">Agent Skills จะมาฆ่า MCP จริงไหม? Tim Berglund สรุปบน lightboard: มันคนละงานกัน Skill ทำงานในเครื่อง MCP ต่อออกไปโลกภายนอก คำตอบคือใช้ทั้งคู่</h3>
+              <div class="article-foot">อ่านต่อ →</div>
+            </div>
+          </a>
+          <a class="article" href="#">
+            <div class="article-img" style="background: linear-gradient(120deg, #9ae6b4, #ffd1dc);"></div>
+            <div class="article-body">
+              <div class="article-meta"><span>NEWS</span><span>31 พ.ค. 2569</span><span>16 นาที</span></div>
+              <h3 class="article-title">Opus 4.8 รันงานยาวเองได้ 11 ชั่วโมงครึ่ง · เลิก babysit AI ทีละ prompt มาเป็น "มอบโจทย์ก้อนเดียวแล้วเดินจากไป"</h3>
+              <div class="article-foot">อ่านต่อ →</div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="section-wrap reveal">
+        <h2 class="section-title">เพิ่มเติม</h2>
+        <p class="section-sub">เกี่ยวกับเรา · Privacy · Contact · Terms</p>
+        <div class="tools">
+          <div class="tool">
+            <h3>เกี่ยวกับเรา</h3>
+            <p>Vibe Coding Thailand ช่วยให้ทุกคนใช้ AI ได้จริง ไม่ใช่แค่เล่นคำศัพท์</p>
+          </div>
+          <div class="tool">
+            <h3>ชุมชน</h3>
+            <p>เข้าร่วมกลุ่มผู้อ่าน และ community ที่ช่วยกันแก้ปัญหาวันจริง</p>
+          </div>
+          <div class="tool">
+            <h3>ติดต่อ</h3>
+            <p>สนใจ collaborate หรือสนับสนุน? ติดต่อได้เลย</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+    <div class="cookie reveal" id="cookie-banner">
+      <p>เราใช้คุกกี้ที่จำเป็นเพื่อให้เว็บทำงาน (เข้าสู่ระบบ ชำระเงิน) และคุกกี้วิเคราะห์การใช้งาน (Google Analytics) เพื่อปรับปรุงบริการ โดยคุกกี้วิเคราะห์จะทำงานเฉพาะเมื่อคุณยินยอมเท่านั้น อ่านรายละเอียดที่ <a href="#" style="color:#fde68a; text-decoration: underline;">นโยบายความเป็นส่วนตัว</a></p>
+      <div class="cookie-actions" style="display:flex; gap:10px; flex-wrap:wrap;">
+        <a class="btn btn-outline" href="#">ตั้งค่าคุกกี้</a>
+        <a class="btn btn-filled" href="#" onclick="document.getElementById('cookie-banner').style.display='none'">ยอมรับทั้งหมด</a>
+      </div>
+    </div>
+
+    <footer>
+    <div class="footer-grid">
+      <div>
+        <h4>Vibe Coding Thailand</h4>
+        <p style="font-size: 14px; line-height: 1.6;">คอร์ส หนังสือ และบทความภาษาไทย เรื่อง AI & coding ที่ใช้งานได้จริง</p>
+      </div>
+      <div>
+        <h4>อื่นๆ</h4>
+        <ul>
+          <li><a href="#">หน้าแรก</a></li>
+          <li><a href="#featured">หนังสือ</a></li>
+          <li><a href="#courses">คอร์สทั้งหมด</a></li>
+          <li><a href="#articles">บทความทั้งหมด</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>กฎระเบียบ</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms</a></li>
+          <li><a href="#">Cookie Settings</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="copy">© Vibe Coding Thailand — Built as a design/layout demo.</div>
+  </footer>
+
+  <script>
+    const header = document.getElementById('site-header');
+    const announce = header?.querySelector('.announce');
+    const updateHeaderTop = () => {
+      const height = announce ? announce.getBoundingClientRect().height : 0;
+      if (height > 0) header.style.setProperty('--announce-height', `${height}px`);
+      header.classList.toggle('announce-open', height > 0);
+    };
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 20);
+    });
+    if (announce) updateHeaderTop();
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add('in-view');
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+    const closeDropdowns = () => {
+      ['tools-dropdown','more-dropdown'].forEach((id) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.classList.remove('is-open');
+        const btn = document.getElementById(id.replace('dropdown','toggle'));
+        if (btn) btn.setAttribute('aria-expanded','false');
+      });
+    };
+    document.getElementById('tools-toggle')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const el = document.getElementById('tools-dropdown');
+      const open = el.classList.toggle('is-open');
+      document.getElementById('tools-toggle')?.setAttribute('aria-expanded', String(open));
+      if (open) closeDropdowns();
+      setTimeout(() => el.classList.add('is-open'), 0);
+    });
+    document.getElementById('more-toggle')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const el = document.getElementById('more-dropdown');
+      const open = el.classList.toggle('is-open');
+      document.getElementById('more-toggle')?.setAttribute('aria-expanded', String(open));
+      if (open) closeDropdowns();
+      setTimeout(() => el.classList.add('is-open'), 0);
+    });
+    document.addEventListener('click', closeDropdowns);
+    document.querySelectorAll('.dropdown-item').forEach((el) => el.addEventListener('click', closeDropdowns));
+    document.getElementById('cookie-banner')?.querySelector('.btn-filled')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.getElementById('cookie-banner').style.display = 'none';
+    });
+  </script>
+</body>
+</html>

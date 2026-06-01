@@ -6,10 +6,7 @@
   <title>เรียน AI ใช้งานจริงสำหรับทุกคน | Vibe Coding Thailand</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&family=Prompt:wght@400;500;600;700&display=swap"
-    rel="stylesheet"
-  />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&family=Prompt:wght@400;500;600;700&display=swap"/>
   <style>
     :root {
       --bg: #f7f3ec;
@@ -19,10 +16,9 @@
       --accent-pink: #ffd1dc;
       --accent-purple: #e2d5f5;
       --accent-yellow: #fde68a;
-      --accent-gold: #d4a843;
       --card: #ffffff;
       --border: #e7e0d8;
-      --shadow: 0 14px 40px rgba(31, 27, 24, 0.12);
+      --shadow: 0 14px 40px rgba(31,27,24,0.12);
       --radius: 22px;
     }
 
@@ -36,47 +32,6 @@
       line-height: 1.6;
       overflow-x: hidden;
     }
-    /* Dropdowns */
-    .blob {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(70px);
-      opacity: 0.75;
-      pointer-events: none;
-    }
-    .hero-wrap {
-      position: relative;
-      min-height: 92vh;
-      padding: 0 24px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      overflow: hidden;
-    }
-    .blob-1 {
-      width: 420px; height: 420px;
-      background: var(--accent-green);
-      top: -120px; left: -120px;
-      animation: float 14s ease-in-out infinite;
-    }
-    .blob-2 {
-      width: 360px; height: 360px;
-      background: var(--accent-pink);
-      bottom: -100px; right: -80px;
-      animation: float 16s ease-in-out infinite reverse;
-    }
-    .blob-3 {
-      width: 300px; height: 300px;
-      background: var(--accent-purple);
-      top: 30%; left: 60%;
-      animation: float 12s ease-in-out infinite;
-    }
-    @keyframes float {
-      0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-      50% { transform: translate3d(20px, -30px, 0) scale(1.05); }
-    }
 
     /* Header */
     header {
@@ -84,7 +39,7 @@
       top: 0; left: 0; right: 0;
       z-index: 50;
       backdrop-filter: blur(14px);
-      background: rgba(247, 243, 236, 0.85);
+      background: rgba(247,243,236,0.85);
       border-bottom: 1px solid transparent;
       transition: border-color .2s, top .2s;
     }
@@ -109,7 +64,7 @@
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 22px;
+      gap: 18px;
       list-style: none;
       margin: 0; padding: 0;
     }
@@ -117,12 +72,13 @@
       text-decoration: none;
       color: var(--muted);
       font-weight: 500;
-      font-size: 15px;
+      font-size: 14px;
       transition: color .2s;
       background: transparent;
       border: 0;
-      padding: 0;
+      padding: 4px 2px;
       cursor: pointer;
+      line-height: 1;
     }
     .nav-links a:hover { color: var(--ink); }
     .btn {
@@ -130,10 +86,10 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      padding: 10px 18px;
+      padding: 9px 16px;
       border-radius: 999px;
       font-weight: 600;
-      font-size: 14px;
+      font-size: 13px;
       cursor: pointer;
       border: 1.5px solid transparent;
       text-decoration: none;
@@ -155,6 +111,46 @@
     .btn-filled:hover { background: #2b2520; }
 
     /* Hero */
+    .hero-wrap {
+      position: relative;
+      min-height: 92vh;
+      padding: 0 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(70px);
+      opacity: 0.75;
+      pointer-events: none;
+    }
+    .blob-1 {
+      width: 420px; height: 420px;
+      background: var(--accent-green);
+      top: -120px; left: -120px;
+      animation: float 14s ease-in-out infinite;
+    }
+    .blob-2 {
+      width: 360px; height: 360px;
+      background: var(--accent-pink);
+      bottom: -100px; right: -80px;
+      animation: float 16s ease-in-out infinite reverse;
+    }
+    .blob-3 {
+      width: 300px; height: 300px;
+      background: var(--accent-purple);
+      top: 30%; left: 60%;
+      animation: float 12s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translate3d(0,0,0) scale(1); }
+      50% { transform: translate3d(20px,-30px,0) scale(1.05); }
+    }
     .hero {
       position: relative;
       z-index: 1;
@@ -165,7 +161,7 @@
       display: inline-block;
       padding: 6px 14px;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.65);
+      background: rgba(255,255,255,0.65);
       border: 1px solid var(--border);
       color: var(--muted);
       font-weight: 600;
@@ -203,7 +199,7 @@
       margin-top: 44px;
       width: 100%;
       max-width: 900px;
-      background: rgba(255, 255, 255, 0.65);
+      background: rgba(255,255,255,0.65);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       overflow: hidden;
@@ -224,13 +220,13 @@
       width: 8px; height: 8px;
       border-radius: 50%;
       background: #b91c1c;
-      box-shadow: 0 0 0 0 rgba(185, 28, 28, 0.7);
+      box-shadow: 0 0 0 0 rgba(185,28,28,0.7);
       animation: pulse 1.2s infinite;
     }
     @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(185, 28, 28, 0.7); }
-      70% { box-shadow: 0 0 0 10px rgba(185, 28, 28, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(185, 28, 28, 0); }
+      0% { box-shadow: 0 0 0 0 rgba(185,28,28,0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(185,28,28,0); }
+      100% { box-shadow: 0 0 0 0 rgba(185,28,28,0); }
     }
     .ticker-items { padding: 6px 0; }
     .ticker-item {
@@ -313,7 +309,41 @@
       justify-content: space-between;
     }
 
-    /* Course card */
+    /* Featured book */
+    .book-cover {
+      width: 260px;
+      min-height: 320px;
+      border-radius: var(--radius);
+      background: linear-gradient(160deg, #1f1b18 0%, #2b2520 60%, #3a3028 100%);
+      color: #fff;
+      padding: 28px 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px solid rgba(0,0,0,0.08);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), var(--shadow);
+      line-height: 1.15;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+    }
+    .book-cover span {
+      font-size: 11px;
+      font-weight: 500;
+      opacity: .85;
+      letter-spacing: 0.2px;
+    }
+    .featured {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 28px;
+      align-items: start;
+    }
+    @media (max-width: 780px) {
+      .featured { grid-template-columns: 1fr; }
+      .book-cover { width: 100%; min-height: 260px; }
+    }
+
+    /* Course */
     .course {
       background: var(--card);
       border: 1px solid var(--border);
@@ -404,6 +434,25 @@
       color: #9a8f85;
     }
 
+    /* Cookies */
+    .cookie {
+      position: fixed;
+      left: 20px; right: 20px;
+      bottom: 20px;
+      background: #1f1b18;
+      color: #fff;
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 60;
+    }
+    .cookie a { color: #fde68a; text-decoration: underline; }
+    .cookie p { margin: 0; flex: 1 1 360px; }
+
     /* Reveal */
     .reveal {
       opacity: 0;
@@ -415,7 +464,6 @@
       transform: translateY(0);
     }
 
-    /* Accessibility */
     @media (prefers-reduced-motion: reduce) {
       .blob, .reveal { animation: none; transition: none; }
       .reveal { opacity: 1; transform: none; }
@@ -423,6 +471,7 @@
     @media (max-width: 720px) {
       .nav-links { display: none; }
       header { position: sticky; }
+      .hero { padding: 80px 20px 60px; }
     }
 
     /* Dropdowns */
@@ -474,37 +523,36 @@
   </style>
 </head>
 <body>
+  <header id="site-header">
+    <nav class="nav">
+      <a class="logo" href="#">Vibe Coding Thailand</a>
+      <ul class="nav-links">
+        <li><a href="#courses">คอร์ส</a></li>
+        <li><a href="#featured">หนังสือ</a></li>
+        <li><a href="#articles">บทความ</a></li>
+        <li class="has-dropdown">
+          <button id="tools-toggle" aria-expanded="false" class="dropdown-toggle">เครื่องมือ AI ▾</button>
+          <div class="dropdown" id="tools-dropdown">
+            <a class="dropdown-item" href="#">Claude Code</a>
+            <a class="dropdown-item" href="#">Claude Cowork</a>
+            <a class="dropdown-item" href="#">ChatGPT</a>
+          </div>
+        </li>
+        <li class="has-dropdown">
+          <button id="more-toggle" aria-expanded="false" class="dropdown-toggle">เพิ่มเติม ▾</button>
+          <div class="dropdown" id="more-dropdown">
+            <a class="dropdown-item" href="#">เกี่ยวกับเรา</a>
+            <a class="dropdown-item" href="#">ชุมชน</a>
+            <a class="dropdown-item" href="#">ติดต่อ</a>
+            <a class="dropdown-item" href="#">Privacy</a>
+          </div>
+        </li>
+      </ul>
+      <a class="btn btn-filled" href="#">เข้าสู่ระบบ</a>
+    </nav>
+  </header>
 
-    <header id="site-header">
-      <nav class="nav">
-        <a class="logo" href="#">Vibe Coding Thailand</a>
-        <ul class="nav-links">
-          <li><a href="#courses">คอร์ส</a></li>
-          <li><a href="#featured">หนังสือ</a></li>
-          <li><a href="#articles">บทความ</a></li>
-          <li class="has-dropdown">
-            <button id="tools-toggle" aria-expanded="false" class="dropdown-toggle">เครื่องมือ AI ▾</button>
-            <div class="dropdown" id="tools-dropdown">
-              <a class="dropdown-item" href="#">Claude Code</a>
-              <a class="dropdown-item" href="#">Claude Cowork</a>
-              <a class="dropdown-item" href="#">ChatGPT</a>
-            </div>
-          </li>
-          <li class="has-dropdown">
-            <button id="more-toggle" aria-expanded="false" class="dropdown-toggle">เพิ่มเติม ▾</button>
-            <div class="dropdown" id="more-dropdown">
-              <a class="dropdown-item" href="#">เกี่ยวกับเรา</a>
-              <a class="dropdown-item" href="#">ชุมชน</a>
-              <a class="dropdown-item" href="#">ติดต่อ</a>
-              <a class="dropdown-item" href="#">Privacy</a>
-            </div>
-          </li>
-        </ul>
-        <a class="btn btn-filled" href="#">เข้าสู่ระบบ</a>
-      </nav>
-    </header>
-
-  <main style="padding-top: 32px;">
+  <main>
     <div class="hero-wrap">
       <div class="blob blob-1"></div>
       <div class="blob blob-2"></div>
@@ -553,7 +601,7 @@
         </p>
         <div class="featured">
           <div class="book-cover">
-            Developer's<br/>Playbook<br/><span style="font-size:12px; font-weight:500;">10 บท · วิดีโอ + สิทธิ์เข้ากลุ่ม</span>
+            Developer's<br>Playbook<br><span>10 บท · วิดีโอ + สิทธิ์เข้ากลุ่ม</span>
           </div>
           <div>
             <div style="display:flex; gap: 18px; color: var(--muted); margin-bottom: 12px; font-weight: 700;">
@@ -690,15 +738,15 @@
     </section>
   </main>
 
-    <div class="cookie reveal" id="cookie-banner">
-      <p>เราใช้คุกกี้ที่จำเป็นเพื่อให้เว็บทำงาน (เข้าสู่ระบบ ชำระเงิน) และคุกกี้วิเคราะห์การใช้งาน (Google Analytics) เพื่อปรับปรุงบริการ โดยคุกกี้วิเคราะห์จะทำงานเฉพาะเมื่อคุณยินยอมเท่านั้น อ่านรายละเอียดที่ <a href="#" style="color:#fde68a; text-decoration: underline;">นโยบายความเป็นส่วนตัว</a></p>
-      <div class="cookie-actions" style="display:flex; gap:10px; flex-wrap:wrap;">
-        <a class="btn btn-outline" href="#">ตั้งค่าคุกกี้</a>
-        <a class="btn btn-filled" href="#" onclick="document.getElementById('cookie-banner').style.display='none'">ยอมรับทั้งหมด</a>
-      </div>
+  <div class="cookie reveal" id="cookie-banner">
+    <p>เราใช้คุกกี้ที่จำเป็นเพื่อให้เว็บทำงาน (เข้าสู่ระบบ ชำระเงิน) และคุกกี้วิเคราะห์การใช้งาน (Google Analytics) เพื่อปรับปรุงบริการ โดยคุกกี้วิเคราะห์จะทำงานเฉพาะเมื่อคุณยินยอมเท่านั้น อ่านรายละเอียดที่ <a href="#">นโยบายความเป็นส่วนตัว</a></p>
+    <div class="cookie-actions" style="display:flex; gap:10px; flex-wrap:wrap;">
+      <a class="btn btn-outline" href="#">ตั้งค่าคุกกี้</a>
+      <a class="btn btn-filled" href="#" onclick="document.getElementById('cookie-banner').style.display='none'">ยอมรับทั้งหมด</a>
     </div>
+  </div>
 
-    <footer>
+  <footer>
     <div class="footer-grid">
       <div>
         <h4>Vibe Coding Thailand</h4>
@@ -727,25 +775,9 @@
 
   <script>
     const header = document.getElementById('site-header');
-    const announce = header?.querySelector('.announce');
-    const pushHeaderForAnnounce = () => {
-      if (!announce) return;
-      const rect = announce.getBoundingClientRect();
-      const height = rect.height || 0;
-      document.documentElement.style.setProperty('--announce-height', `${height}px`);
-      if (height > 0) {
-        announce.classList.add('is-visible');
-        header.classList.add('is-pushed');
-      } else {
-        announce.classList.remove('is-visible');
-        header.classList.remove('is-pushed');
-      }
-    };
     window.addEventListener('scroll', () => {
       header.classList.toggle('scrolled', window.scrollY > 20);
     });
-    pushHeaderForAnnounce();
-    window.addEventListener('resize', pushHeaderForAnnounce);
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
